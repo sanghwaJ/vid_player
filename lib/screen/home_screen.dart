@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:vid_player/component/custom_video_player.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -21,8 +22,10 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget renderVideo() {
     return Center(
-      child: Text(
-        'video',
+      child: CustomVideoPlayer(
+        // renderVideo 함수를 거치는 경우엔, video가 null일 수 없기 때문에 ! 표기
+        video: video!,
+        onNewVideoPressed: onNewVideoPressed,
       ),
     );
   }
@@ -37,7 +40,7 @@ class _HomeScreenState extends State<HomeScreen> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           _Logo(
-            onTap: onLogoTap,
+            onTap: onNewVideoPressed,
           ),
           // 공백이 필요한 경우 이렇게 SizedBox를 쓰기도 함
           SizedBox(
@@ -49,7 +52,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
-  void onLogoTap() async {
+  void onNewVideoPressed() async {
     final video = await ImagePicker().pickVideo(
       // ImageSource.gallery => 사진첩에서 이미지 선택
       // ImageSource.camera => 카메라로 연결되고, 찍은 이미지를 선택
